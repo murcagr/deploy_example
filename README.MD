@@ -2,9 +2,10 @@ CI: https://codefresh.io/
 На бранче девелоп:
 1. Билд
 2. Тест
-3 .CI система загружает docker образ с тэгом develop-<gitHASH>
+3. CI система загружает docker образ с тэгом develop-<gitHASH>
 4. Клонируется репозиторий с описанием деплоя (helm chart, ksonnet, kustomization, etc…)
     Так как у нас был helm – мы меняли appVersion в Chart.yml (https://helm.sh/docs/topics/charts/)
+
 Дальше:
 ArgoCD(https://argoproj.github.io/argo-cd/) мониторит изменения в гите(webhook или polling), если они есть, то он сверяет текущее описание helm chart с указанным в гите. Если есть разница, то новый манифест применяется к кластеру.
 
