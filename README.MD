@@ -2,7 +2,7 @@ CI: https://codefresh.io/
 На бранче девелоп:
 1. Билд
 2. Тест
-3. CI система загружает docker образ с тэгом develop-<gitHASH>
+3. CI система загружает docker образ с тэгом develop-(gitHASH)
 4. Клонируется репозиторий с описанием деплоя (helm chart, ksonnet, kustomization, etc…)
     Так как у нас был helm – мы меняли appVersion в Chart.yml (https://helm.sh/docs/topics/charts/)
 
