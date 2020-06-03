@@ -1,0 +1,47 @@
+{{- if .Values.istio.enabled -}}
+{{- $fullName := include "decks-helm.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ $fullName }}
+  namespace: {{.Release.Namespace}}
+spec:
+  hosts:
+  - decks
+  - "decks.bl9.ru"
+  gateways:
+  - {{ $fullName }}
+  http:
+  - name: "decks-route-1"
+    route:
+    - destination:
+        host: {{ $fullName }}
+        port:
+          number: 80 
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ $fullName }}
+  namespace: {{.Release.Namespace}}
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "decks.bl9.ru"
+  - port:
+      number: 443 
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: cert-decks.bl9.ru
+    hosts:
+    - "decks.bl9.ru"
+{{- end }}

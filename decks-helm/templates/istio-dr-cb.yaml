@@ -1,0 +1,15 @@
+{{- if .Values.istio.enabled -}}
+{{- $fullName := include "decks-helm.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: {{ $fullName }}-cb-policy
+spec:
+  host: {{ $fullName }}
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 14 
+      interval: 1m
+      baseEjectionTime: 90s
+{{ end }}
